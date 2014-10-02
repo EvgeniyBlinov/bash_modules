@@ -1,4 +1,5 @@
 bash_modules
+Bash functions and aliases.
 ============
 
 Install
