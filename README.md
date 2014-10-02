@@ -30,5 +30,11 @@ Module symfony2.sh for Symfony PHP framework. http://symfony.com/
 `sf2doctrine_migration_down`                - dictrine -> migrations -> downgrade migrations.
 `sf2doctrine_migration_drop_not_migrated`   - dictrine -> migrations -> manage(Read/Skip/Delete) not migrated migrations.
 
-============
-bash_modules
+
+### License ###
+
+- [See license](https://github.com/EvgeniyBlinov/bash_modules/blob/master/LICENSE)
+
+### Author ###
+
+- [Blinov Evgeniy](mailto:evgeniy_blinov@mail.ru) ([http://blinov.in.ua/](http://blinov.in.ua/))
