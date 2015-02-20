@@ -1,3 +1,11 @@
 #! /bin/bash
 
-alias git_auto_commit="git commit -m \"Work stage $(date '+%F %T')\""
+
+function git_auto_commit {
+    git commit -m "$(cat <<END_HEREDOC
+$(git rev-parse --abbrev-ref HEAD)
+Work stage $(date '+%F %T')
+$(git status -s)
+END_HEREDOC
+)" "$@"
+}
