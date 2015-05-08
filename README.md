@@ -1,3 +1,5 @@
+[![MIT License][license-image]][license-url]
+
 Bash functions and aliases.
 ============
 
@@ -33,8 +35,11 @@ Module symfony2.sh for Symfony PHP framework. http://symfony.com/
 
 ### License ###
 
-- [See license](https://github.com/EvgeniyBlinov/bash_modules/blob/master/LICENSE)
+[![MIT License][license-image]][license-url]
 
 ### Author ###
 
 - [Blinov Evgeniy](mailto:evgeniy_blinov@mail.ru) ([http://blinov.in.ua/](http://blinov.in.ua/))
+
+[license-image]: http://img.shields.io/badge/license-MIT-blue.svg?style=flat
+[license-url]: LICENSE
