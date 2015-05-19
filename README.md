@@ -8,9 +8,11 @@ Install
 ```sh
 cat >> ~/.bashrc <<EOF
 
-for bash_module in ~/.bash_modules/*.sh; do
-    source \$bash_module
-done
+if [ -d ~/.bash_modules/ ]; then
+    for bash_module in ~/.bash_modules/*.sh; do
+        source \$bash_module
+    done
+fi
 
 EOF
 ```
@@ -18,6 +20,9 @@ EOF
 Module git.sh
 
 `git_auto_commit` - Commit changes with message "Work stage YYYY-mm-dd HH:MM:SS"
+
+If branch has name: `2015-05-19_developer_taskId__description`
+Commit massage should be: `[#taskId] master committed files`
 
 ============
 Module grc.sh
