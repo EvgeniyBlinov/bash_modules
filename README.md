@@ -25,6 +25,8 @@ If branch has name: `2015-05-19_developer_taskId__description`
 
 Commit massage should be: `[#taskId] master committed files`
 
+`git_branch_useful` - git branch useful stat
+
 ============
 Module grc.sh
 
