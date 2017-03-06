@@ -6,6 +6,7 @@ Bash functions and aliases.
 Install
 
 ```sh
+git clone https://github.com/EvgeniyBlinov/bash_modules.git ~/.bash_modules &&
 cat >> ~/.bashrc <<EOF
 
 if [ -d ~/.bash_modules/ ]; then
