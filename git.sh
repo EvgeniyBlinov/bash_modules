@@ -1,6 +1,5 @@
 #! /bin/bash
 
-
 function git_auto_commit {
     local OPTIND a m
     local MESSAGE=''
@@ -31,7 +30,6 @@ $(git status -s)
 END_HEREDOC
 )"
 }
-
 
 function git_branch_useful {
     for k in `git branch|perl -pe s/^..//`;do
