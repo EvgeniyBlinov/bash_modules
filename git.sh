@@ -2,12 +2,33 @@
 
 
 function git_auto_commit {
-    git commit -m "$(cat <<END_HEREDOC
+    local OPTIND a m
+    local MESSAGE=''
+    local ALL=''
+    while getopts "am:" opt; do
+        case "$opt" in
+        a)
+            ALL='a'
+            ;;
+        m)
+            MESSAGE=$(echo -e "\n$OPTARG\n\n")
+            ;;
+        esac
+    done
+
+    shift $((OPTIND-1))
+
+    [ "$1" = "--" ] && shift
+    #########################################################################
+
+    git commit \
+        -${ALL}m "$(cat <<END_HEREDOC
 $(git rev-parse --abbrev-ref HEAD|awk -F '_' '{print "[#"$3"]"}')  $(git rev-parse --abbrev-ref HEAD)
+$MESSAGE
 Work stage $(date '+%F %T')
 $(git status -s)
 END_HEREDOC
-)" "$@"
+)"
 }
 
 function git_branch_useful {
