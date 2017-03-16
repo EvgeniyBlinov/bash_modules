@@ -20,9 +20,10 @@ function git_auto_commit {
     [ "$1" = "--" ] && shift
     #########################################################################
 
+#$(git rev-parse --abbrev-ref HEAD|awk -F '_' '{print "[#"$3"]"}')  $(git rev-parse --abbrev-ref HEAD) $MESSAGE
     git commit \
         -${ALL}m "$(cat <<END_HEREDOC
-$(git rev-parse --abbrev-ref HEAD|awk -F '_' '{print "[#"$3"]"}')  $(git rev-parse --abbrev-ref HEAD) $MESSAGE
+$(git rev-parse --abbrev-ref HEAD) $MESSAGE
 
 
 Work stage $(date '+%F %T')
