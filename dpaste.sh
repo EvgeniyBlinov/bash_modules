@@ -1,3 +1,5 @@
 #!/bin/bash
 
-alias dpaste="curl -F 'content=<-' https://dpaste.de/api/"
+function dpaste {
+    echo "$(cat|curl -F 'content=<-' https://dpaste.de/api/|tr -d '\"')/raw"
+}
