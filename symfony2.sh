@@ -1,7 +1,7 @@
-#! /bin/bash
+#!/bin/bash
 
-if [ -x /usr/bin/pygmentize ]; then
-    alias ccat='/usr/bin/pygmentize -g'
+if which pygmentize &> /dev/null; then
+    alias ccat="$(which pygmentize) -g"
 else
     echo 'For showing scripts need to install /usr/bin/pygmentize'
     echo 'apt-get update && apt-get install -y python-pygments'
