@@ -28,6 +28,22 @@ function kc_change {
 }
 
 function kc {
+    if [ -z "$KUBECONFIG" ]; then
+        local kubeconfig_path="$HOME/.kube/config"
+        if [ -e "$kubeconfig_path" ]; then
+            case $(stat --printf=%F $kubeconfig_path) in
+                directory)
+                    KUBECONFIG=$(printf ":%s" $(find $kubeconfig_path -type f))
+                    export KUBECONFIG=${KUBECONFIG:1}
+                ;;
+                "regular file")
+                    export KUBECONFIG=$kubeconfig_path
+                ;;
+            esac
+        else
+            export KUBECONFIG=$HOME/.kube/admin.conf
+        fi
+    fi
     if [ -z "$KUBECONFIG_CURRENT" ]; then
         kc_change
     fi
