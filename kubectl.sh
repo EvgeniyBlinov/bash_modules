@@ -1,14 +1,14 @@
 #!/bin/bash
 
 function kc_list {
-    echo "KUBECONFIG_CURRENT=$KUBECONFIG_CURRENT"
+    echo "KUBECONFIGS=$KUBECONFIGS"
     echo "KUBECONFIG=$KUBECONFIG"
 }
 
 function kc_change {
-    if echo $KUBECONFIG|grep -q ':'; then
+    if echo $KUBECONFIGS|grep -q ':'; then
         #local kubeconfig_dir=$(echo $KUBECONFIG|cut -d ':' -f 1|xargs dirname)
-        IFS=':' read -ra kubeconfigs <<< "$KUBECONFIG"
+        IFS=':' read -ra kubeconfigs <<< "$KUBECONFIGS"
 
         # Set PS3 prompt
         PS3="Enter current KUBECONFIG: "
@@ -16,36 +16,38 @@ function kc_change {
         # set shuttle list
         select kubeconfig in "${kubeconfigs[@]}"; do
             if [ -n "$kubeconfig" ]; then
-                export KUBECONFIG_CURRENT=$kubeconfig
+                export KUBECONFIG=$kubeconfig
                 echo "$kubeconfig selected"
                 break
             fi
         done
     else
-        export KUBECONFIG_CURRENT=$KUBECONFIG
+        export KUBECONFIG=$KUBECONFIGS
         echo "$KUBECONFIG selected"
     fi
 }
 
 function kc {
-    if [ -z "$KUBECONFIG" ]; then
+    if [ -z "$KUBECONFIGS" ]; then
         local kubeconfig_path="$HOME/.kube/config"
         if [ -e "$kubeconfig_path" ]; then
             case $(stat --printf=%F $kubeconfig_path) in
                 directory)
-                    KUBECONFIG=$(printf ":%s" $(find $kubeconfig_path -type f))
-                    export KUBECONFIG=${KUBECONFIG:1}
+                    KUBECONFIGS=$(printf ":%s" $(find $kubeconfig_path -type f))
+                    export KUBECONFIGS=${KUBECONFIGS:1}
                 ;;
                 "regular file")
                     export KUBECONFIG=$kubeconfig_path
+                    export KUBECONFIGS=$kubeconfig_path
                 ;;
             esac
         else
+            export KUBECONFIGS=$HOME/.kube/admin.conf
             export KUBECONFIG=$HOME/.kube/admin.conf
         fi
     fi
-    if [ -z "$KUBECONFIG_CURRENT" ]; then
+    if [ -z "$KUBECONFIG" ] || echo "$KUBECONFIG"|grep -q ':' ; then
         kc_change
     fi
-    kubectl --kubeconfig=$KUBECONFIG_CURRENT $@
+    kubectl --kubeconfig=$KUBECONFIG $@
 }
