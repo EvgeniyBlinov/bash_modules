@@ -28,6 +28,8 @@ function kc_change {
 }
 
 function kc_change_namespace {
+    kc config view | grep -o 'namespace:.*'
+    echo '-------------------'
     kc get namespaces
     echo '-------------------'
 
