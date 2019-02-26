@@ -30,9 +30,6 @@ function kc_change {
 function kc_change_namespace {
     kc get namespaces
     echo '-------------------'
-    #local kubeconfig_dir=$(echo $KUBECONFIG|cut -d ':' -f 1|xargs dirname)
-    #IFS=':' 
-    #read -ra kubenamespaces <<< $(kc get namespaces --no-headers=true|awk '{print $1}')
 
     # Set PS3 prompt
     PS3="Enter current namespace: "
@@ -40,7 +37,6 @@ function kc_change_namespace {
     # set shuttle list
     select kubenamespace in $(kc get namespaces --no-headers=true|awk '{print $1}'); do
         if [ -n "$kubenamespace" ]; then
-            #export KUBECONFIG=$kubeconfig
             kc config set-context $(kc config current-context) --namespace=$kubenamespace
             kc config view | grep -o 'namespace:.*'
             break
