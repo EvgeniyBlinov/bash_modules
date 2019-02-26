@@ -27,6 +27,27 @@ function kc_change {
     fi
 }
 
+function kc_change_namespace {
+    kc get namespaces
+    echo '-------------------'
+    #local kubeconfig_dir=$(echo $KUBECONFIG|cut -d ':' -f 1|xargs dirname)
+    #IFS=':' 
+    #read -ra kubenamespaces <<< $(kc get namespaces --no-headers=true|awk '{print $1}')
+
+    # Set PS3 prompt
+    PS3="Enter current namespace: "
+
+    # set shuttle list
+    select kubenamespace in $(kc get namespaces --no-headers=true|awk '{print $1}'); do
+        if [ -n "$kubenamespace" ]; then
+            #export KUBECONFIG=$kubeconfig
+            kc config set-context $(kc config current-context) --namespace=$kubenamespace
+            kc config view | grep -o 'namespace:.*'
+            break
+        fi
+    done
+}
+
 function kc {
     if [ -z "$KUBECONFIGS" ]; then
         local kubeconfig_path="$HOME/.kube/config"
