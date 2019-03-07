@@ -3,6 +3,7 @@
 function kc_list {
     echo "KUBECONFIGS=$KUBECONFIGS"
     echo "KUBECONFIG=$KUBECONFIG"
+    echo "HELM_HOME=$HELM_HOME"
 }
 
 function kc_change {
@@ -25,6 +26,13 @@ function kc_change {
         export KUBECONFIG=$KUBECONFIGS
         echo "$KUBECONFIG selected"
     fi
+    kc_helm_home
+}
+
+function kc_helm_home {
+    export HELM_HOME="$HOME/.helm-$(kubectl config current-context|cut -d @ -f 2)"
+    export PATH="$(echo ${PATH} | awk -v RS=: -v ORS=: '/helm/ {next} {print}')"
+    export PATH="${PATH}:${HELM_HOME}/bin"
 }
 
 function kc_change_namespace {
@@ -58,11 +66,13 @@ function kc {
                 "regular file")
                     export KUBECONFIG=$kubeconfig_path
                     export KUBECONFIGS=$kubeconfig_path
+                    kc_helm_home
                 ;;
             esac
         else
             export KUBECONFIGS=$HOME/.kube/admin.conf
             export KUBECONFIG=$HOME/.kube/admin.conf
+            kc_helm_home
         fi
     fi
     if [ -z "$KUBECONFIG" ] || echo "$KUBECONFIG"|grep -q ':' ; then
