@@ -55,26 +55,25 @@ function kc_change_namespace {
 }
 
 function kc {
-    if [ -z "$KUBECONFIGS" ]; then
-        local kubeconfig_path="$HOME/.kube/config"
-        if [ -e "$kubeconfig_path" ]; then
-            case $(stat --printf=%F $kubeconfig_path) in
-                directory)
-                    KUBECONFIGS=$(printf ":%s" $(find $kubeconfig_path -type f))
-                    export KUBECONFIGS=${KUBECONFIGS:1}
-                ;;
-                "regular file")
-                    export KUBECONFIG=$kubeconfig_path
-                    export KUBECONFIGS=$kubeconfig_path
-                    kc_helm_home
-                ;;
-            esac
-        else
-            export KUBECONFIGS=$HOME/.kube/admin.conf
-            export KUBECONFIG=$HOME/.kube/admin.conf
-            kc_helm_home
-        fi
+    local kubeconfig_path="$HOME/.kube/config"
+    if [ -e "$kubeconfig_path" ]; then
+        case $(stat --printf=%F $kubeconfig_path) in
+            directory)
+                KUBECONFIGS=$(printf ":%s" $(find $kubeconfig_path -type f))
+                export KUBECONFIGS=${KUBECONFIGS:1}
+            ;;
+            "regular file")
+                export KUBECONFIG=$kubeconfig_path
+                export KUBECONFIGS=$kubeconfig_path
+                kc_helm_home
+            ;;
+        esac
+    else
+        export KUBECONFIGS=$HOME/.kube/admin.conf
+        export KUBECONFIG=$HOME/.kube/admin.conf
+        kc_helm_home
     fi
+
     if [ -z "$KUBECONFIG" ] || echo "$KUBECONFIG"|grep -q ':' ; then
         kc_change
     fi
