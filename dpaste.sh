@@ -1,5 +1,6 @@
 #!/bin/bash
 
 function dpaste {
-    echo "$(cat|curl -F 'content=<-' https://dpaste.de/api/|tr -d '\"')/raw"
+    echo "$(cat|curl -F 'content=<-' https://dpaste.de/api/|tr -d '\"')/raw" |
+      xclip -i -selection primary
 }
