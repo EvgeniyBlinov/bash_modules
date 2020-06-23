@@ -32,7 +32,7 @@ function kc_change {
 function kc_helm_home {
     export HELM_HOME="$HOME/.helm-$(kubectl config current-context|cut -d @ -f 2)"
     export PATH="$(echo ${PATH} | awk -v RS=: -v ORS=: '/helm/ {next} {print}')"
-    export PATH="${PATH}:${HELM_HOME}/bin"
+    export PATH="${HELM_HOME}/bin:${PATH}"
 }
 
 function kc_change_namespace {

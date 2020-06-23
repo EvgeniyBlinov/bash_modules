@@ -56,6 +56,18 @@ function _vt_init {
     export VAULTCONFIGS=${VAULTCONFIGS:1}
 }
 
+function vt_login {
+    _vt_init
+
+    if [ -z "$VAULTCONFIG" ]; then
+        vt_change &&
+        vault status
+    else
+        export VAULT_TOKEN=$(vault login -field=token $@)
+        sed "s/VAULT_TOKEN=.*/VAULT_TOKEN=$VAULT_TOKEN/" -i $VAULTCONFIG
+    fi
+}
+
 function vt {
     _vt_init
 
