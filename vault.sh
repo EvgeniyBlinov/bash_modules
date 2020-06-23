@@ -68,6 +68,21 @@ function vt_login {
     fi
 }
 
+function vt_token_save {
+    _vt_init
+
+    if [ -z "$VAULTCONFIG" ]; then
+        vt_change &&
+        vault status
+    else
+        if [ -f ~/.vault-token ]; then
+            export VAULT_TOKEN=$(cat ~/.vault-token)
+            sed "s/VAULT_TOKEN=.*/VAULT_TOKEN=$VAULT_TOKEN/" -i $VAULTCONFIG
+            echo "Vault token saved"
+        fi
+    fi
+}
+
 function vt {
     _vt_init
 
