@@ -55,7 +55,7 @@ function kc_change_namespace {
 }
 
 function kc {
-    local kubeconfig_path="$HOME/.kube/config"
+    local kubeconfig_path="$HOME/.kube/config.d"
     if [ -e "$kubeconfig_path" ]; then
         case $(stat --printf=%F $kubeconfig_path) in
             directory)
