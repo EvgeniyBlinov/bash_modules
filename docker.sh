@@ -10,6 +10,6 @@ function docker_tags {
             local repository='library'
         fi
         curl -Ls "https://registry.hub.docker.com/v2/repositories/$repository/$imagename/tags?page_size=1024" |
-            jq '."results"[]["name"]'
+            jq -r '."results"[]["name"]'
     fi
 }
