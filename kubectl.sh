@@ -3,6 +3,8 @@
 function kc_list {
     echo "KUBECONFIGS=$KUBECONFIGS"
     echo "KUBECONFIG=$KUBECONFIG"
+    ## terraform kubernetes provider
+    echo "KUBE_CONFIG_PATH=$KUBE_CONFIG_PATH"
     echo "HELM_HOME=$HELM_HOME"
 }
 
@@ -18,12 +20,16 @@ function kc_change {
         select kubeconfig in "${kubeconfigs[@]}"; do
             if [ -n "$kubeconfig" ]; then
                 export KUBECONFIG=$kubeconfig
+                ## terraform kubernetes provider
+                export KUBE_CONFIG_PATH=$kubeconfig
                 echo "$kubeconfig selected"
                 break
             fi
         done
     else
         export KUBECONFIG=$KUBECONFIGS
+        ## terraform kubernetes provider
+        export KUBE_CONFIG_PATH=$KUBECONFIGS
         echo "$KUBECONFIG selected"
     fi
     kc_helm_home
@@ -64,6 +70,8 @@ function kc {
             ;;
             "regular file")
                 export KUBECONFIG=$kubeconfig_path
+                ## terraform kubernetes provider
+                export KUBE_CONFIG_PATH=$kubeconfig_path
                 export KUBECONFIGS=$kubeconfig_path
                 kc_helm_home
             ;;
@@ -71,6 +79,8 @@ function kc {
     else
         export KUBECONFIGS=$HOME/.kube/admin.conf
         export KUBECONFIG=$HOME/.kube/admin.conf
+        ## terraform kubernetes provider
+        export KUBE_CONFIG_PATH=$HOME/.kube/admin.conf
         kc_helm_home
     fi
 
